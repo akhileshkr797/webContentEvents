@@ -1,0 +1,19 @@
+{
+    "name": "webcontentevents",
+    "version": "1.0.0",
+    "description": "sample webcontent Events",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/akhileshkr797/webContentEvents.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/akhileshkr797/webContentEvents/issues"
+    },
+    "homepage": "https://github.com/akhileshkr797/webContentEvents#readme"
+}
