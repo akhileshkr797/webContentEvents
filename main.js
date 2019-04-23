@@ -37,7 +37,7 @@ function createWindow(fileStr, options) {
     })
 
     win.webContents.on('page-favicon-updated', event => {
-        console.log('page-favicon-updated:', event.sender.webContents.browserWindowOptions.title)
+        console.log('page-favicon-updated:', event.sender.webContents.getTitle())
     })
 
 
@@ -71,8 +71,8 @@ function createWindow(fileStr, options) {
 app.on('ready', () => {
     mainWindow = createWindow('index.html', {
         show: false,
-        width: 1200,
-        height: 700,
+        width: 700,
+        height: 500,
         title: 'mainWindow',
         alwaysOnTop: true
     })
@@ -80,7 +80,7 @@ app.on('ready', () => {
     secondWindow = createWindow('about.html', {
         show: false,
         width: 500,
-        height: 400,
+        height: 300,
         title: 'secondWindow',
         alwaysOnTop: true
     })
