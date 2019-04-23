@@ -1,34 +1,87 @@
-const electron = require('eletcron')
-const { app, BrowserWindow } = electron
-const path = require(electron)
+const electron = require('electron')
+const { app, BrowserWindow, webContents } = electron
+const path = require('path')
 const url = require('url')
 
-let mainWindow
+let mainWindow, secondWindow
 
-function createWindow() {
-    mainWindow = new BrowserWindow({
-        show: false,
-        width: 1200,
-        height: 800,
-        title: 'webContentEvents'
+function createWindow(fileStr, options) {
+    let win = new BrowserWindow(options)
+
+
+    //webcontent Events
+    //did-start-loading
+
+    win.webContents.on('did-start-loading', event => {
+        console.log('did-start-loading:', event.sender.webContents.browserWindowOptions.title)
     })
 
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+    //did-stop-loading
+    win.webContents.on('did-stop-loading', event => {
+        console.log('did-stop-loading:', event.sender.webContents.browserWindowOptions.title)
+    })
+
+    //dom-ready
+    win.webContents.on('dom-ready', event => {
+        console.log('dom-ready:', event.sender.webContents.getTitle())
+    })
+
+    //did-finish-load
+    win.webContents.on('did-finish-load', event => {
+        console.log('did-finish-load:', event.sender.webContents.getTitle())
+    })
+
+    //did-fail-load
+    win.webContents.on('did-fail-load', event => {
+        console.log('did-fail-load', event.sender.webContents.getTitle())
+    })
+
+    win.webContents.on('page-favicon-updated', event => {
+        console.log('page-favicon-updated:', event.sender.webContents.browserWindowOptions.title)
+    })
+
+
+
+
+
+
+
+
+    //loading files to mainWindow
+
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, fileStr),
         protocol: 'file:',
         slashes: true
 
     }))
 
-    mainWindow.once('ready-to-show', () => {
-        mainWindow.show()
+    win.once('ready-to-show', () => {
+        win.show()
     })
 
-    mainWindow.on('close', function() {
-        mainWindow = null
+    win.on('close', function() {
+        win = null
     })
+
+    return win
 }
 
+
 app.on('ready', () => {
-    createWindow()
+    mainWindow = createWindow('index.html', {
+        show: false,
+        width: 1200,
+        height: 700,
+        title: 'mainWindow',
+        alwaysOnTop: true
+    })
+
+    secondWindow = createWindow('about.html', {
+        show: false,
+        width: 500,
+        height: 400,
+        title: 'secondWindow',
+        alwaysOnTop: true
+    })
 })
