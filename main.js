@@ -40,6 +40,21 @@ function createWindow(fileStr, options) {
         console.log('page-favicon-updated:', event.sender.webContents.getTitle())
     })
 
+    //new-window
+    win.webContents.on('new-window', (event, url, frameName, disposition, options, additionalFeatures) => {
+        if (frameName === 'modal') {
+            // open window as modal
+            event.preventDefault()
+            Object.assign(options, {
+                modal: true,
+                parent: mainWindow,
+                width: 100,
+                height: 100
+            })
+            event.newGuest = new BrowserWindow(options)
+        }
+    })
+
 
 
 
@@ -74,7 +89,10 @@ app.on('ready', () => {
         width: 700,
         height: 500,
         title: 'mainWindow',
-        alwaysOnTop: true
+        alwaysOnTop: true,
+        webPreferences: {
+            nativeWindowOpen: true
+        }
     })
 
     secondWindow = createWindow('about.html', {
