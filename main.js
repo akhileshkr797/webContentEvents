@@ -55,6 +55,16 @@ function createWindow(fileStr, options) {
         }
     })
 
+    //will-navigate
+    win.webContents.on('will-navigate', event => {
+        console.log('will-navigate', event.sender.webContents.getTitle())
+    })
+
+    //unresponsive
+    win.webContents.on('unresponsive', event => {
+        console.log('unresponsive:', event.sender.webContents.browserWindowOptions.title)
+    })
+
 
 
 
